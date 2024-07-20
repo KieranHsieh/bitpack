@@ -113,3 +113,4 @@ int main() {
 Some things still missing from this library:
 - Default support for storage needs greater than 64 bits.
 - Type safety for bitpack enum accessors
+- Nested bitpacks
