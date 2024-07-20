@@ -1,0 +1,2 @@
+add_executable(bitpack_tests bitpack_base_usage.cpp)
+target_link_libraries(bitpack_tests PRIVATE bitpack)

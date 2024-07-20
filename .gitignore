@@ -1,0 +1,8 @@
+# Build artifacts
+
+build
+
+# IDE
+.cache
+.idea
+*.code-workspace
