@@ -313,13 +313,13 @@ namespace bitpack {
          */
         using storage_type = typename layout_traits<L, D>::storage_type;
 
-    private:
         /**
          * @brief The actual data stored by the bitpack
          *
          */
-        storage_type _data = 0;
+        storage_type data = 0;
 
+    private:
         /**
          * @brief Converts an unknown index type I (Either enum or integral) to a size_t value.
          *
@@ -348,6 +348,18 @@ namespace bitpack {
 
     public:
         /**
+         * @brief Constructs the bitpack with a default value of 0
+         *
+         */
+        constexpr bitpack() = default;
+
+        /**
+         * @brief Constructs the bitpack with a value of val
+         *
+         */
+        constexpr bitpack(storage_type val) : data(val) { }
+
+        /**
          * @brief Gets the value stored in the bitpack at field index I
          *
          * @tparam I The index of the data being accessed
@@ -360,7 +372,7 @@ namespace bitpack {
             constexpr auto unshifted_mask = bitmask_v<storage_type, L::field_sizes[index]>;
             constexpr auto shift = detail::accumulate(L::field_sizes.begin(), L::field_sizes.begin() + index, storage_type(0));
             constexpr storage_type mask = unshifted_mask << shift;
-            return (_data & mask) >> shift;
+            return (data & mask) >> shift;
         }
 
         /**
@@ -379,8 +391,8 @@ namespace bitpack {
             // Debug check to make sure that data isn't overflowing
             assert((value & unshifted_mask) == value &&
                    "The input value overflows the bitwidth associated with the provided index");
-            _data &= ~mask;
-            _data |= (value & unshifted_mask) << shift;
+            data &= ~mask;
+            data |= (value & unshifted_mask) << shift;
         }
     };
 }

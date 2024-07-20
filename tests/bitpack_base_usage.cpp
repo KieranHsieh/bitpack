@@ -66,6 +66,17 @@ int main() {
     assert(bitpack.get<PacketIdx::Header>() == 1);
     assert(bitpack.get<PacketIdx::Content>() == 8);
 
+    using layout_1 = bitpack::fast_layout<bitpack::bitwidth<12>, bitpack::bitwidth<8>>;
+    using layout_2 = bitpack::fast_layout<bitpack::bitwidth<4>, bitpack::bitwidth<4>, bitpack::bitwidth<4>>;
+    using pack1 = bitpack::bitpack<layout_1>;
+    using pack2 = bitpack::bitpack<layout_2>;
+
+    // Test that a pack can be constructed from it's storage_type
+    pack1 pack_1{};
+    pack_1.set<0>(1);
+    pack2 pack_2(pack_1.get<0>());
+    assert(pack_2.data == 1);
+
     std::cout << "Tests passed!\n";
 
     return 0;
